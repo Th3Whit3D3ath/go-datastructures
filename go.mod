@@ -1,4 +1,4 @@
-module github.com/Th3Whit3D3ath/go-datastructures/v0
+module github.com/Th3Whit3D3ath/go-datastructures
 
 go 1.15
 
