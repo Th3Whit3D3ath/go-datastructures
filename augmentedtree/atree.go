@@ -368,6 +368,14 @@ func setMin(parent *node) {
 	}
 }
 
+func GetMax(n *node) int64 {
+    return n.max
+}
+
+func GetMin(n *node) int64 {
+    return n.min
+}
+
 func rotate(parent *node, dir int) *node {
 	otherDir := takeOpposite(dir)
 
