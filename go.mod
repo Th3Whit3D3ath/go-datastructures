@@ -1,4 +1,4 @@
-module github.com/Th3Whit3D3ath/go-datastructures
+module github.com/Workiva/go-datastructures
 
 go 1.15
 
