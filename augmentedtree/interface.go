@@ -78,5 +78,5 @@ type Tree interface {
 	// Traverse will traverse tree and give alls intervals
 	// found in an undefined order
 	Traverse(func(Interval))
-    TraversePrint()
+    BFS(func(Node))
 }

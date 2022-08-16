@@ -107,7 +107,9 @@ func (n *node) String() string {
     id := string(rune(n.id))
     start := n.interval.LowAtDimension(1)
     end := n.interval.HighAtDimension(1)
-    return fmt.Sprintf("ID: %v\t(%d,%d)\t Min: %d Max: %d\n", id, start, end, n.min, n.max)
+    left := string(rune(n.children[0].ID()))
+    right := string(rune(n.children[1].ID()))
+    return fmt.Sprintf("ID: %v\t(%d,%d)\nMin: %d Max: %d\nLeft: %v\tRight:%v\n", id, start, end, n.min, n.max, left, right)
 }
 
 func newDummy() node {
@@ -137,15 +139,14 @@ type tree struct {
 	dummy                node
 }
 
-func (t *tree) TraversePrint() {
+func (t *tree) BFS(fn func(n Node)) {
     nodes := []*node{t.root}
 
     for len(nodes) != 0 {
         c := nodes[len(nodes)-1]
         nodes = nodes[:len(nodes)-1]
         if c != nil {
-            // fn (c)
-            fmt.Printf("%v", c)
+             fn (c)
             if c.children[0] != nil {
                 nodes = append(nodes, c.children[0])
             }
