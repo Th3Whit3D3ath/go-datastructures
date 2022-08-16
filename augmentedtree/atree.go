@@ -107,8 +107,8 @@ func (n *node) String() string {
     id := string(rune(n.id))
     start := n.interval.LowAtDimension(1)
     end := n.interval.HighAtDimension(1)
-    left := string(rune(n.children[0].ID()))
-    right := string(rune(n.children[1].ID()))
+    left := string(rune(n.children[0].id))
+    right := string(rune(n.children[1].id))
     return fmt.Sprintf("ID: %v\t(%d,%d)\nMin: %d Max: %d\nLeft: %v\tRight:%v\n", id, start, end, n.min, n.max, left, right)
 }
 
