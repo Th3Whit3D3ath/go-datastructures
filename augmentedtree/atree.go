@@ -101,7 +101,6 @@ func (n *node) GetInterval() Interval {
     return n.interval
 }
 
-
 func newDummy() node {
 	return node{
 		children: [2]*node{},
@@ -129,7 +128,7 @@ type tree struct {
 	dummy                node
 }
 
-func (t *tree) Traverse(fn func(id Interval)) {
+func (t *tree) Traverse(fn func(n *node)) {
 	nodes := []*node{t.root}
 
 	for len(nodes) != 0 {
@@ -381,7 +380,6 @@ func setMin(parent *node) {
 		parent.min = parent.interval.LowAtDimension(1)
 	}
 }
-
 
 func rotate(parent *node, dir int) *node {
 	otherDir := takeOpposite(dir)
