@@ -105,8 +105,8 @@ func (n *node) GetInterval() Interval {
 
 func (n *node) String() string {
     id := string(rune(n.id))
-    start := n.interal.LowAtDimension(1)
-    end := n.interal.HighAtDimension(1)
+    start := n.interval.LowAtDimension(1)
+    end := n.interval.HighAtDimension(1)
     return fmt.Sprintf("ID: %v\t(%d,%d)\t Min: %d Max: %d\n", id, start, end, n.min, n.max)
 }
 
@@ -131,10 +131,6 @@ func newNode(interval Interval, min, max int64, dimension uint64) *node {
 	return itn
 }
 
-func NewNode() Node {
-    return newDummy()
-}
-
 type tree struct {
 	root                 *node
 	maxDimension, number uint64
@@ -142,7 +138,7 @@ type tree struct {
 }
 
 func (t *tree) TraversePrint() {
-    nodes := []*nodes{t.root}
+    nodes := []*node{t.root}
 
     for len(nodes) != 0 {
         c := nodes[len(nodes)-1]
@@ -160,7 +156,7 @@ func (t *tree) TraversePrint() {
     }
 }
 
-func (t *tree) Traverse(fn func(n Node)) {
+func (t *tree) Traverse(fn func(n Interval)) {
 	nodes := []*node{t.root}
 
 	for len(nodes) != 0 {
