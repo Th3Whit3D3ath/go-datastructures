@@ -113,7 +113,7 @@ func (n *node) String() string {
         left = string(rune(n.children[0].id))
     }
     if n.children[1] != nil {
-        right := string(rune(n.children[1].id))
+        right = string(rune(n.children[1].id))
     }
     return fmt.Sprintf("Node: %v (%d,%d)\nMin: %d Max: %d\nLeft: %v\tRight:%v\n", id, start, end, n.min, n.max, left, right)
 }
