@@ -132,7 +132,7 @@ type tree struct {
 	dummy                node
 }
 
-func (t *tree) Traverse(fn func(n *node)) {
+func (t *tree) Traverse(fn func(n Node)) {
 	nodes := []*node{t.root}
 
 	for len(nodes) != 0 {
