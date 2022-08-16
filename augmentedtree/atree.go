@@ -107,7 +107,7 @@ func (n *node) String() string {
     id := string(rune(n.id))
     start := n.interal.LowAtDimension(1)
     end := n.interal.HighAtDimension(1)
-    return fmt.Sprintf("ID: %v\t(%d,%d)\t Min: %d Max: %d\n", id, , , n.min, n.max)
+    return fmt.Sprintf("ID: %v\t(%d,%d)\t Min: %d Max: %d\n", id, start, end, n.min, n.max)
 }
 
 func newDummy() node {
@@ -142,7 +142,7 @@ type tree struct {
 }
 
 func (t *tree) TraversePrint() {
-    nodes := []*nodes{t.root)}
+    nodes := []*nodes{t.root}
 
     for len(nodes) != 0 {
         c := nodes[len(nodes)-1]
