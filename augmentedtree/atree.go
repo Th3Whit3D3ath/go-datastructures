@@ -16,6 +16,8 @@ limitations under the License.
 
 package augmentedtree
 
+import "fmt"
+
 func intervalOverlaps(n *node, low, high int64, interval Interval, maxDimension uint64) bool {
 	if !overlaps(n.interval.HighAtDimension(1), high, n.interval.LowAtDimension(1), low) {
 		return false
@@ -101,6 +103,13 @@ func (n *node) GetInterval() Interval {
     return n.interval
 }
 
+func (n *node) String() string {
+    id := string(rune(n.id))
+    start := n.interal.LowAtDimension(1)
+    end := n.interal.HighAtDimension(1)
+    return fmt.Sprintf("ID: %v\t(%d,%d)\t Min: %d Max: %d\n", id, , , n.min, n.max)
+}
+
 func newDummy() node {
 	return node{
 		children: [2]*node{},
@@ -130,6 +139,25 @@ type tree struct {
 	root                 *node
 	maxDimension, number uint64
 	dummy                node
+}
+
+func (t *tree) TraversePrint() {
+    nodes := []*nodes{t.root)}
+
+    for len(nodes) != 0 {
+        c := nodes[len(nodes)-1]
+        nodes = nodes[:len(nodes)-1]
+        if c != nil {
+            // fn (c)
+            fmt.Printf("%v", c)
+            if c.children[0] != nil {
+                nodes = append(nodes, c.children[0])
+            }
+            if c.children[1] != nil {
+                nodes = append(nodes, c.children[1])
+            }
+        }
+    }
 }
 
 func (t *tree) Traverse(fn func(n Node)) {
