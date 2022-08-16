@@ -163,8 +163,7 @@ func (t *tree) Traverse(fn func(n Interval)) {
 		c := nodes[len(nodes)-1]
 		nodes = nodes[:len(nodes)-1]
 		if c != nil {
-			//fn(c.interval)
-            fn(c)
+			fn(c.interval)
 			if c.children[0] != nil {
 				nodes = append(nodes, c.children[0])
 			}
