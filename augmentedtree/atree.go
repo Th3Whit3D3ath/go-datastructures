@@ -107,9 +107,17 @@ func (n *node) String() string {
     id := string(rune(n.id))
     start := n.interval.LowAtDimension(1)
     end := n.interval.HighAtDimension(1)
-    left := string(rune(n.children[0].id))
-    right := string(rune(n.children[1].id))
-    return fmt.Sprintf("ID: %v\t(%d,%d)\nMin: %d Max: %d\nLeft: %v\tRight:%v\n", id, start, end, n.min, n.max, left, right)
+    if n.children[0] != nil {
+        left := string(rune(n.children[0].id))
+    } else {
+        left := ""
+    }
+    if n.children[1] != nil {
+        right := string(rune(n.children[1].id))
+    } else {
+        right := ""
+    }
+    return fmt.Sprintf("Node: %v (%d,%d)\nMin: %d Max: %d\nLeft: %v\tRight:%v\n", id, start, end, n.min, n.max, left, right)
 }
 
 func newDummy() node {
