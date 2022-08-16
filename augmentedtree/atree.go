@@ -89,6 +89,19 @@ func (n *node) adjustRange() {
 	setMax(n)
 }
 
+func (n *node) GetMax() int64 {
+    return n.max
+}
+
+func (n *node) GetMin() int64 {
+    return n.min
+}
+
+func (n *node) GetInterval() Interval {
+    return n.interval
+}
+
+
 func newDummy() node {
 	return node{
 		children: [2]*node{},
@@ -123,7 +136,8 @@ func (t *tree) Traverse(fn func(id Interval)) {
 		c := nodes[len(nodes)-1]
 		nodes = nodes[:len(nodes)-1]
 		if c != nil {
-			fn(c.interval)
+			//fn(c.interval)
+            fn(c)
 			if c.children[0] != nil {
 				nodes = append(nodes, c.children[0])
 			}
@@ -368,13 +382,6 @@ func setMin(parent *node) {
 	}
 }
 
-func GetMax(n *node) int64 {
-    return n.max
-}
-
-func GetMin(n *node) int64 {
-    return n.min
-}
 
 func rotate(parent *node, dir int) *node {
 	otherDir := takeOpposite(dir)
