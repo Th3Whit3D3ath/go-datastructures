@@ -122,6 +122,10 @@ func newNode(interval Interval, min, max int64, dimension uint64) *node {
 	return itn
 }
 
+func NewNode() Node {
+    return newDummy()
+}
+
 type tree struct {
 	root                 *node
 	maxDimension, number uint64
