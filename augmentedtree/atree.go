@@ -42,6 +42,7 @@ func overlaps(high, otherHigh, low, otherLow int64) bool {
 
 // compare returns an int indicating which direction the node
 // should go.
+// curr.start, n.start, curr.id, n.id
 func compare(nodeLow, ivLow int64, nodeID, ivID uint64) int {
 	if ivLow > nodeLow {
 		return 1
@@ -189,6 +190,115 @@ func (tree *tree) resetDummy() {
 // Len returns the number of items in this tree.
 func (tree *tree) Len() uint64 {
 	return tree.number
+}
+
+// add will add the provided interval to the tree.
+func (tree *tree) addMin(iv Interval) {
+	if tree.root == nil {
+		tree.root = newNode(
+			iv, iv.LowAtDimension(1),
+			iv.HighAtDimension(1),
+			1,
+		)
+		tree.root.red = false
+		tree.number++
+		return
+	}
+
+	tree.resetDummy()
+	var (
+		dummy               = tree.dummy
+		parent, grandParent *node
+		node                = tree.root
+		dir, last           int // default 0
+		otherLast           = 1
+		id                  = iv.ID()
+		max                 = iv.HighAtDimension(1)
+		ivLow               = iv.LowAtDimension(1)
+		helper              = &dummy
+	)
+
+    // n.start <= curr.start && n.end >= curr.end
+        // n.start == curr.start && n.end == curr.end
+        // n.start < curr.start || n.end > curr.end
+
+	// set this AFTER clearing dummy
+	helper.children[1] = tree.root
+	for {
+		if node == nil {
+			node = newNode(iv, ivLow, max, 1)
+			parent.children[dir] = node
+			tree.number++
+		} else if isRed(node.children[0]) && isRed(node.children[1]) {
+			node.red = true
+			node.children[0].red = false
+			node.children[1].red = false
+		}
+
+        // local interval completely engulfs new interval
+        localMin := node.interval.LowAtDimension(1)
+        localMax := node.interval.HighAtDimension(1)
+        if ivLow >= localMin && max <= localMax {
+            break
+        }
+
+        // same interval and global min, max
+        if ivLow == node.min && max == node.max {
+            // if node has children replace node
+            if node.children[0] != nil || node.children[1] != nil {
+                node = newNode(iv, ivLow, max, 1)
+                parent.children[dir] = node
+            }
+            break
+        }
+        // new interval completely or partially engulfs min and max
+        if ivLow =< node.min && max >= node.max {
+            // replace node
+            if node.id == tree.root.id {
+                node = newNode(iv, ivLow, max, 1)
+                parent.children[dir] = node
+            }
+            break
+        }
+
+        // n.end > curr.end
+		if max > node.max {
+			node.max = max
+		}
+
+        // n.start < curr.start
+		if ivLow < node.min {
+			node.min = ivLow
+		}
+
+		if isRed(parent) && isRed(node) {
+			localDir := intFromBool(helper.children[1] == grandParent)
+
+			if node == parent.children[last] {
+				helper.children[localDir] = rotate(grandParent, otherLast)
+			} else {
+				helper.children[localDir] = doubleRotate(grandParent, otherLast)
+			}
+		}
+
+        // covers dup id
+		if node.id == id {
+			break
+		}
+
+		last = dir
+		otherLast = takeOpposite(last)
+        // left or right
+		dir = compare(node.interval.LowAtDimension(1), ivLow, node.id, id)
+
+		if grandParent != nil {
+			helper = grandParent
+		}
+		grandParent, parent, node = parent, node, node.children[dir]
+	}
+
+	tree.root = dummy.children[1]
+	tree.root.red = false
 }
 
 // add will add the provided interval to the tree.
