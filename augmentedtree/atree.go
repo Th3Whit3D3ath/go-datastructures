@@ -384,7 +384,7 @@ func (tree *tree) Add(intervals ...Interval) {
 
 func (tree *tree) AddMin(intervals ...Interval) {
 	for _, iv := range intervals {
-		tree.add(iv)
+		tree.addMin(iv)
 	}
 }
 
