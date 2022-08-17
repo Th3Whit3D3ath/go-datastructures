@@ -382,6 +382,13 @@ func (tree *tree) Add(intervals ...Interval) {
 	}
 }
 
+func (tree *tree) AddMin(intervals ...Interval) {
+	for _, iv := range intervals {
+		tree.add(iv)
+	}
+}
+
+
 // delete will remove the provided interval from the tree.
 func (tree *tree) delete(iv Interval) {
 	if tree.root == nil {

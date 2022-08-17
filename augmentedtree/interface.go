@@ -67,6 +67,7 @@ type Node interface {
 type Tree interface {
 	// Add will add the provided intervals to the tree.
 	Add(intervals ...Interval)
+	AddMin(intervals ...Interval)
 	// Len returns the number of intervals in the tree.
 	Len() uint64
 	// Delete will remove the provided intervals from the tree.
