@@ -252,7 +252,7 @@ func (tree *tree) addMin(iv Interval) {
             break
         }
         // new interval completely or partially engulfs min and max
-        if ivLow =< node.min && max >= node.max {
+        if ivLow <= node.min && max >= node.max {
             // replace node
             if node.id == tree.root.id {
                 node = newNode(iv, ivLow, max, 1)
