@@ -18,7 +18,6 @@ package augmentedtree
 
 import (
     "fmt"
-    //"log"
 )
 
 func intervalOverlaps(n *node, low, high int64, interval Interval, maxDimension uint64) bool {
