@@ -18,7 +18,7 @@ package augmentedtree
 
 import (
     "fmt"
-    "log"
+    //"log"
 )
 
 func intervalOverlaps(n *node, low, high int64, interval Interval, maxDimension uint64) bool {
@@ -242,7 +242,7 @@ func (tree *tree) addMin(iv Interval) {
         localMin := node.interval.LowAtDimension(1)
         localMax := node.interval.HighAtDimension(1)
         if ivLow >= localMin && max <= localMax {
-            log.Printf("%v: %d >= %d && %d <= %d\n", id, ivLow, localMin, max, localMax)
+            //log.Printf("%v: %d >= %d && %d <= %d\n", id, ivLow, localMin, max, localMax)
             break
         }
 
@@ -250,7 +250,7 @@ func (tree *tree) addMin(iv Interval) {
         if ivLow == node.min && max == node.max {
             // if node has children replace node
             if node.children[0] != nil || node.children[1] != nil {
-                log.Printf("%v: %d == %d && %d == %d\n", id, ivLow, node.min, max, node.max)
+                //log.Printf("%v: %d == %d && %d == %d\n", id, ivLow, node.min, max, node.max)
                 node = newNode(iv, ivLow, max, 1)
                 parent.children[dir] = node
             }
@@ -259,7 +259,7 @@ func (tree *tree) addMin(iv Interval) {
         // new interval completely or partially engulfs min and max
         if ivLow <= node.min && max >= node.max {
             // replace node
-            log.Printf("%v: %d <= %d && %d >= %d\n", id, ivLow, node.min, max, node.max)
+            //log.Printf("%v: %d <= %d && %d >= %d\n", id, ivLow, node.min, max, node.max)
             node = newNode(iv, ivLow, max, 1)
             parent.children[dir] = node
             break
